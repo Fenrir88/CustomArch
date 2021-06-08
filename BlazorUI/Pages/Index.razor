@@ -1,7 +1,25 @@
 ﻿@page "/"
 
+@using BlazorUI.BlazorWebService
+@using BlazorUI.Model
+@inject IBlazorWebService BackEndWebService
+
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
-
+<h1>@BackEndWebService.WebServiceUrl</h1>
 <SurveyPrompt Title="How is Blazor working for you?" />
+
+<h2>@data.Title</h2>
+<h2>@data.Content</h2>
+@code {
+    private TestComponentModel data;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (data == null)
+        {
+            data = await BackEndWebService.Get();
+        }
+    }
+}
